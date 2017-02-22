@@ -1,0 +1,6 @@
+services:
+  resolver.base:
+    abstract: true
+    class: Youshido\GraphQlExtensionsBundle\Resolver\AbstractResolver
+    calls:
+      - [ setInitialDependencies, ["@security.token_storage"] ]
