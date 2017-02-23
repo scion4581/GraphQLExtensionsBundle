@@ -22,9 +22,14 @@ class GraphQLExtensionsExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('graphql_extensions.files', $config['files']);
+        $this->setContainerParam($container, 'web_root', $config['web_root']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
     }
 
+    private function setContainerParam(ContainerBuilder $container, $parameter, $value)
+    {
+        $container->setParameter(sprintf('graphql_extensions.config.%s', $parameter), $value);
+    }
 }

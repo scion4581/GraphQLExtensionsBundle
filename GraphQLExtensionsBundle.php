@@ -1,7 +1,9 @@
 <?php
 
 namespace Youshido\GraphQlExtensionsBundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Youshido\GraphQlExtensionsBundle\DependencyInjection\CompilerPass\GraphQLExtensionsCompilerPass;
 
 /**
  * This file is a part of GraphQLExtensionsBundle project.
@@ -11,5 +13,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class GraphQLExtensionsBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new GraphQLExtensionsCompilerPass());
+    }
 
 }

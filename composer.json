@@ -3,12 +3,6 @@
   "description": "Symfony GraphQL Extensions Bundle",
   "minimum-stability": "stable",
   "license": "mit",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Youshido/GraphQL"
-    }
-  ],
   "authors": [
     {
       "name": "Alexandr Viniychuk",
