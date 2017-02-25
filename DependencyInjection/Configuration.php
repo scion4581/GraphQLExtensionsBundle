@@ -1,5 +1,5 @@
 <?php
-namespace Youshido\GraphQlExtensionsBundle\DependencyInjection;
+namespace Youshido\GraphQLExtensionsBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -18,18 +18,15 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('resolver')
-                    ->children()
-                        ->scalarNode('web_root')->isRequired()->cannotBeEmpty()->defaultValue("%kernel.root_dir%/../web")->end()
-                        ->scalarNode('path_prefix')->isRequired()->cannotBeEmpty()->defaultValue('uploads')->end()
-                    ->end()
+                ->scalarNode('web_root')->cannotBeEmpty()->defaultValue("%kernel.root_dir%/../web")->end()
+                ->scalarNode('path_prefix')->cannotBeEmpty()->defaultValue('uploads')->end()
                 ->enumNode('storage')
                     ->values(['s3', 'filesystem'])
                     ->cannotBeEmpty()
                     ->defaultValue('filesystem')
                 ->end()
                 ->enumNode('platform')
-                    ->values(['odm', ' norm'])
+                    ->values(['odm', 'orm'])
                     ->cannotBeEmpty()
                     ->defaultValue('orm')
                 ->end()

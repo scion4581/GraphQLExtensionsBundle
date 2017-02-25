@@ -1,9 +1,9 @@
 <?php
 
-namespace Youshido\GraphQlExtensionsBundle\Services\PathResolver;
+namespace Youshido\GraphQLExtensionsBundle\Service\PathResolver;
 
 
-use Youshido\GraphQlExtensionsBundle\Model\PathAwareInterface;
+use Youshido\GraphQLExtensionsBundle\Model\PathAwareInterface;
 
 interface PathResolverInterface
 {

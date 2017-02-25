@@ -6,7 +6,7 @@
  * created: 2/22/17 5:01 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Services\Locator\Storage;
+namespace Youshido\GraphQLExtensionsBundle\Service\Locator\Storage;
 
 class FileSystemStorage implements StorageInterface
 {

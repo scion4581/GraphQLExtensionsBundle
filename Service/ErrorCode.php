@@ -6,7 +6,7 @@
  * created: 2/21/17 11:46 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Service;
+namespace Youshido\GraphQLExtensionsBundle\Service;
 
 
 class ErrorCode

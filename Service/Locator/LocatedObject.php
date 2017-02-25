@@ -6,9 +6,9 @@
  * created: 2/22/17 9:09 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Service\Locator;
+namespace Youshido\GraphQLExtensionsBundle\Service\Locator;
 
-use Youshido\GraphQlExtensionsBundle\Model\PathAwareInterface;
+use Youshido\GraphQLExtensionsBundle\Model\PathAwareInterface;
 
 class LocatedObject implements LocatedObjectInterface, PathAwareInterface
 {
@@ -21,11 +21,20 @@ class LocatedObject implements LocatedObjectInterface, PathAwareInterface
     /** @var  string */
     private $extension;
 
-    public function __construct($path, $size = 0, $extension = null)
+    /** @var  string */
+    private $filename;
+
+    public function __construct($path, $filename = null, $size = 0, $extension = null)
     {
         $this->path      = $path;
+        $this->filename  = $filename;
         $this->size      = $size;
         $this->extension = $extension;
+    }
+
+    public function getFilename()
+    {
+        return $this->filename;
     }
 
     /**

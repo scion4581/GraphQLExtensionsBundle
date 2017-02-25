@@ -1,6 +1,6 @@
 <?php
 
-namespace Youshido\GraphQlExtensionsBundle\Services\Locator\Storage;
+namespace Youshido\GraphQLExtensionsBundle\Service\Locator\Storage;
 
 
 /**

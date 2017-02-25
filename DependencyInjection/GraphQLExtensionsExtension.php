@@ -6,7 +6,7 @@
  * created: 2/21/17 11:33 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\DependencyInjection;
+namespace Youshido\GraphQLExtensionsBundle\DependencyInjection;
 
 
 use Symfony\Component\Config\FileLocator;
@@ -19,10 +19,15 @@ class GraphQLExtensionsExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config        = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('graphql_extensions.files', $config['files']);
+//        $container->setParameter('graphql_extensions.files', $config['files']);
         $this->setContainerParam($container, 'web_root', $config['web_root']);
+        $this->setContainerParam($container, 'path_prefix', $config['path_prefix']);
+        $this->setContainerParam($container, 'platform', $config['platform']);
+        $this->setContainerParam($container, 'storage', $config['storage']);
+        $this->setContainerParam($container, 'host', null);
+        $this->setContainerParam($container, 'scheme', null);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
@@ -32,4 +37,11 @@ class GraphQLExtensionsExtension extends Extension
     {
         $container->setParameter(sprintf('graphql_extensions.config.%s', $parameter), $value);
     }
+
+    public function getAlias()
+    {
+        return "graphql_extensions";
+    }
+
+
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Youshido\GraphQlExtensionsBundle\Services\PathGenerator;
+namespace Youshido\GraphQLExtensionsBundle\Service\PathGenerator;
 
 
 class DatePathGenerator implements PathGeneratorInterface

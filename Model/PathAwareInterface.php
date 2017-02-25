@@ -6,7 +6,7 @@
  * created: 2/22/17 6:38 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Model;
+namespace Youshido\GraphQLExtensionsBundle\Model;
 
 
 interface PathAwareInterface

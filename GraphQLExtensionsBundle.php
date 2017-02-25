@@ -1,9 +1,10 @@
 <?php
 
-namespace Youshido\GraphQlExtensionsBundle;
+namespace Youshido\GraphQLExtensionsBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Youshido\GraphQlExtensionsBundle\DependencyInjection\CompilerPass\GraphQLExtensionsCompilerPass;
+use Youshido\GraphQLExtensionsBundle\DependencyInjection\CompilerPass\GraphQLExtensionsCompilerPass;
+use Youshido\GraphQLExtensionsBundle\DependencyInjection\GraphQLExtensionsExtension;
 
 /**
  * This file is a part of GraphQLExtensionsBundle project.
@@ -19,5 +20,15 @@ class GraphQLExtensionsBundle extends Bundle
 
         $container->addCompilerPass(new GraphQLExtensionsCompilerPass());
     }
+
+    public function getContainerExtension()
+    {
+        if (null === $this->extension) {
+            $this->extension = new GraphQLExtensionsExtension();
+        }
+
+        return $this->extension;
+    }
+
 
 }

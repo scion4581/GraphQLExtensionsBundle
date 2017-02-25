@@ -1,15 +1,61 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: mounter
- * Date: 2/22/17
- * Time: 1:35 PM
+ * This file is a part of GraphQLExtensionsBundle project.
+ *
+ * @author Alexandr Viniychuk <a@viniychuk.com>
+ * created: 2/25/17 1:57 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Model;
+namespace Youshido\GraphQLExtensionsBundle\Model;
 
 
-class FileModelInterface
+/**
+ * Class File
+ *
+ * @MongoDB\Document(collection="files")
+ * @MongoDB\HasLifecycleCallbacks()
+ */
+interface FileModelInterface extends PathAwareInterface
 {
 
+    /**
+     * @return mixed
+     */
+    public function getId();
+
+    /**
+     * @return string
+     */
+    public function getTitle();
+
+    /**
+     * @param string $title
+     *
+     * @return $this
+     */
+    public function setTitle($title);
+
+    /**
+     * @return mixed
+     */
+    public function getSize();
+
+    /**
+     * @param mixed $size
+     *
+     * @return $this
+     */
+    public function setSize($size);
+
+    /**
+     * @return mixed
+     */
+    public function getPath();
+
+    /**
+     * @param mixed $path
+     *
+     * @return $this
+     */
+    public function setPath($path);
 }

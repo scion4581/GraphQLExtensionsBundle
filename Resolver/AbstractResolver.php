@@ -6,11 +6,11 @@
  * created: 2/21/17 11:42 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Resolver;
+namespace Youshido\GraphQLExtensionsBundle\Resolver;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Youshido\GraphQlExtensionsBundle\Service\ErrorCode;
+use Youshido\GraphQLExtensionsBundle\Service\ErrorCode;
 
 class AbstractResolver
 {

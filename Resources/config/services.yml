@@ -1,33 +1,38 @@
 parameters:
-  graphql_extensions.classes.file_entity:
-  graphql_extensions.classes.path_generator: "Youshido\\GraphQlExtensionsBundle\\Services\\PathGenerator\\DatePathGenerator"
-  graphql_extensions.classes.path_resolver: "Youshido\\GraphQlExtensionsBundle\\Services\\PathResolver\\LocalPathResolver"
+  graphql_extensions.classes.path_generator: "Youshido\\GraphQLExtensionsBundle\\Service\\PathGenerator\\DatePathGenerator"
+  graphql_extensions.classes.path_resolver: "Youshido\\GraphQLExtensionsBundle\\Service\\PathResolver\\LocalPathResolver"
 
 
 services:
   graphql_extensions.resolver.base:
     abstract: true
-    class: Youshido\GraphQlExtensionsBundle\Resolver\AbstractResolver
+    class: "Youshido\\GraphQLExtensionsBundle\\Resolver\\AbstractResolver"
     calls:
       - [ setInitialDependencies, ["@security.token_storage"] ]
 
   graphql_extensions.path_generator:
-      public: false
-      class: "%graphql_extensions.classes.path_generator%"
+    public: false
+    class: "%graphql_extensions.classes.path_generator%"
+
+  graphql_extensions.file_provider:
+    class: "Youshido\\GraphQLExtensionsBundle\\Service\\FileProvider"
+    arguments:
+      - "@request_stack"
+      - "@graphql_extensions.locator"
+      - "@graphql_extensions.om"
 
   graphql_extensions.locator:
-      class: "Youshido\\GraphQlExtensionsBundle\\Services\\Locator\\Locator"
-      arguments:
-        - "@graphql_extensions.path_generator"
-        - "@graphql_extensions.path_resolver"
-        - "%graphql_extensions.storage%"
+    class: "Youshido\\GraphQLExtensionsBundle\\Service\\Locator\\Locator"
+    arguments:
+      - "@graphql_extensions.path_generator"
+      - "@graphql_extensions.path_resolver"
+      - "@graphql_extensions.storage"
 
   graphql_extensions.path_resolver:
-      public: false
-      class: "%graphql_extensions.classes.path_resolver%"
-      arguments:
-          - "@router"
-          - "%graphql_extensions.config.web_root%"
-          - "%graphql_extensions.config.path_prefix%"
-          - "%graphql_extensions.config.host%"
-          - "%graphql_extensions.config.scheme%"
+    class: "%graphql_extensions.classes.path_resolver%"
+    arguments:
+        - "@router"
+        - "%graphql_extensions.config.web_root%"
+        - "%graphql_extensions.config.path_prefix%"
+        - "%graphql_extensions.config.host%"
+        - "%graphql_extensions.config.scheme%"

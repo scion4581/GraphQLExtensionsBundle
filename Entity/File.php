@@ -1,4 +1,7 @@
 <?php
+
+namespace Youshido\GraphQLExtensionsBundle\Entity;
+
 /**
  * This file is a part of GraphQLExtensionsBundle project.
  *
@@ -6,13 +9,12 @@
  * created: 2/22/17 1:39 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Model\Entity;
-
 /**
  * @ORM\Table(name="files")
  * @ORM\Entity()
  */
 class File
 {
+
 
 }

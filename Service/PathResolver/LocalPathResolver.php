@@ -1,10 +1,10 @@
 <?php
 
-namespace Youshido\GraphQlExtensionsBundle\Services\PathResolver;
+namespace Youshido\GraphQLExtensionsBundle\Service\PathResolver;
 
 
 use Symfony\Component\Routing\RouterInterface;
-use Youshido\GraphQlExtensionsBundle\Model\PathAwareInterface;
+use Youshido\GraphQLExtensionsBundle\Model\PathAwareInterface;
 
 class LocalPathResolver implements PathResolverInterface
 {

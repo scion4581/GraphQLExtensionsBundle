@@ -6,14 +6,14 @@
  * created: 2/22/17 7:47 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Services\Locator;
+namespace Youshido\GraphQLExtensionsBundle\Service\Locator;
 
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Youshido\GraphQlExtensionsBundle\Service\Locator\LocatedObject;
-use Youshido\GraphQlExtensionsBundle\Services\Locator\Storage\StorageInterface;
-use Youshido\GraphQlExtensionsBundle\Services\PathGenerator\PathGeneratorInterface;
-use Youshido\GraphQlExtensionsBundle\Services\PathResolver\PathResolverInterface;
+use Youshido\GraphQLExtensionsBundle\Service\Locator\LocatedObject;
+use Youshido\GraphQLExtensionsBundle\Service\Locator\Storage\StorageInterface;
+use Youshido\GraphQLExtensionsBundle\Service\PathGenerator\PathGeneratorInterface;
+use Youshido\GraphQLExtensionsBundle\Service\PathResolver\PathResolverInterface;
 
 class Locator
 {
@@ -32,7 +32,7 @@ class Locator
     {
         $extension = $file->getClientOriginalExtension() ?: $file->guessExtension();
 
-        return $this->doUpload($extension, $this->getFileContent($file->getPathname()));
+        return $this->storeFile($file->getFilename(), $extension, $this->getFileContent($file->getPathname()));
     }
 
     public function saveFromUrl($url)
@@ -41,11 +41,12 @@ class Locator
         if (strpos($extension, '?') !== false) {
             $extension = substr($extension, 0, strpos($extension, '?'));
         }
+        $filename = pathinfo($url, PATHINFO_FILENAME);
 
-        return $this->doUpload($extension, $this->getFileContent($url));
+        return $this->storeFile($filename, $extension, $this->getFileContent($url));
     }
 
-    private function doUpload($extension, $data)
+    private function storeFile($filename, $extension, $data)
     {
         $path         = $this->pathGenerator->generatePath($extension);
         $absolutePath = $this->pathResolver->resolveAbsolutePath(new LocatedObject($path));
@@ -53,7 +54,7 @@ class Locator
         $this->storage->save($absolutePath, $data);
         $size = $this->storage->size($absolutePath);
 
-        return new LocatedObject($path, $size, $extension);
+        return new LocatedObject($path, $filename, $size, $extension);
     }
 
     /**

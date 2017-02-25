@@ -6,7 +6,7 @@
  * created: 2/22/17 9:10 PM
  */
 
-namespace Youshido\GraphQlExtensionsBundle\Service\Locator;
+namespace Youshido\GraphQLExtensionsBundle\Service\Locator;
 
 interface LocatedObjectInterface
 {
