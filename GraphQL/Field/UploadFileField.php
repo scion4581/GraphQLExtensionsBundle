@@ -17,7 +17,7 @@ use Youshido\GraphQLExtensionsBundle\Model\FileModelInterface;
  * @author Alexandr Viniychuk <a@viniychuk.com>
  * created: 2/25/17 10:25 AM
  */
-class UploadFile extends AbstractField
+class UploadFileField extends AbstractField
 {
     public function build(FieldConfig $config)
     {

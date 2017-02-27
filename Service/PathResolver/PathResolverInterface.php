@@ -13,4 +13,8 @@ interface PathResolverInterface
 
     public function resolveAbsolutePath(PathAwareInterface $object);
 
+    public function resolveRelativeResizablePath($config, PathAwareInterface $object);
+
+    public function resolveAbsoluteResizablePath($config, PathAwareInterface $object);
+
 }

@@ -52,4 +52,19 @@ class LocalPathResolver implements PathResolverInterface
         return sprintf('/%s/%s', $this->prefix, $object->getPath());
     }
 
+    public function resolveRelativeResizablePath($config, PathAwareInterface $object)
+    {
+        return sprintf('/media/cache/%s/%sx%s/%s', $config['mode'], $config['width'], $config['height'], $object->getPath());
+    }
+    public function resolveAbsoluteResizablePath($config, PathAwareInterface $object)
+    {
+        return sprintf('%s/%s', $this->webRoot, ltrim($this->resolveRelativeResizablePath($config, $object), '/'));
+    }
+
+    public function resolveWebResizablePath($config, PathAwareInterface $object)
+    {
+        return sprintf('%s://%s%s', $this->scheme, $this->host, $this->resolveRelativeResizablePath($config, $object));
+    }
+
+
 }

@@ -26,6 +26,7 @@ class GraphQLExtensionsExtension extends Extension
         $this->setContainerParam($container, 'path_prefix', $config['path_prefix']);
         $this->setContainerParam($container, 'platform', $config['platform']);
         $this->setContainerParam($container, 'storage', $config['storage']);
+        $this->setContainerParam($container, 'image_driver', $config['image_driver']);
         $this->setContainerParam($container, 'host', null);
         $this->setContainerParam($container, 'scheme', null);
 

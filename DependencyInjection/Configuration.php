@@ -20,6 +20,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('web_root')->cannotBeEmpty()->defaultValue("%kernel.root_dir%/../web")->end()
                 ->scalarNode('path_prefix')->cannotBeEmpty()->defaultValue('uploads')->end()
+                ->scalarNode('image_driver')->cannotBeEmpty()->defaultValue('gd')->end()
                 ->enumNode('storage')
                     ->values(['s3', 'filesystem'])
                     ->cannotBeEmpty()

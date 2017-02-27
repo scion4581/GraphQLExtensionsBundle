@@ -16,6 +16,7 @@
   },
   "require": {
     "php": ">=5.6",
+    "imagine/imagine": "^0.6.3",
     "youshido/graphql-bundle": "~1.2",
     "youshido/graphql-extensions": "^0.0.3"
   },

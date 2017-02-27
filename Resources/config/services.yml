@@ -1,6 +1,7 @@
 parameters:
   graphql_extensions.classes.path_generator: "Youshido\\GraphQLExtensionsBundle\\Service\\PathGenerator\\DatePathGenerator"
   graphql_extensions.classes.path_resolver: "Youshido\\GraphQLExtensionsBundle\\Service\\PathResolver\\LocalPathResolver"
+  graphql_extensions.classes.resizer: "Youshido\\GraphQLExtensionsBundle\\Service\\ImageResizer"
 
 
 services:
@@ -9,6 +10,13 @@ services:
     class: "Youshido\\GraphQLExtensionsBundle\\Resolver\\AbstractResolver"
     calls:
       - [ setInitialDependencies, ["@security.token_storage"] ]
+
+  graphql_extensions.image_resizer:
+      class: "%graphql_extensions.classes.resizer%"
+      arguments:
+          - "@graphql_extensions.storage"
+          - "@graphql_extensions.path_resolver"
+          - "%graphql_extensions.config.image_driver%"
 
   graphql_extensions.path_generator:
     public: false

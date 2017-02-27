@@ -8,19 +8,20 @@ use Youshido\GraphQLExtensionsBundle\Model\FileModelInterface;
 /**
  * Class File
  *
- * @ODM\Document(collection="files")
- * @ODM\InheritanceType("SINGLE_COLLECTION")
- * @ODM\DiscriminatorField("type")
- * @ODM\DiscriminatorMap({"file"="File", "image"="Image"})
- * @ODM\DefaultDiscriminatorValue("file")
+ * @ODM\EmbeddedDocument()
  * @ODM\HasLifecycleCallbacks()
  */
-class File implements FileModelInterface
+class EmbeddedFile implements FileModelInterface
 {
     /**
      * @ODM\Id()
      */
     private $id;
+
+    /**
+     * @ODM\Field(type="string")
+     */
+    private $referenceId;
 
     /**
      * @ODM\Field(type="string")
@@ -41,6 +42,18 @@ class File implements FileModelInterface
      * @ODM\Field(type="date")
      */
     private $uploadedAt;
+
+
+    public function __construct(File $file = null)
+    {
+        if ($file) {
+            $this->referenceId = $file->getId();
+            $this->title       = $file->getTitle();
+            $this->size        = $file->getSize();
+            $this->path        = $file->getPath();
+        }
+    }
+
 
     /**
      * @ODM\PrePersist()
@@ -77,6 +90,25 @@ class File implements FileModelInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getReferenceId()
+    {
+        return $this->referenceId;
+    }
+
+    /**
+     * @param mixed $referenceId
+     * @return EmbeddedFile
+     */
+    public function setReferenceId($referenceId)
+    {
+        $this->referenceId = $referenceId;
+        return $this;
+    }
+
 
     /**
      * @return mixed
@@ -128,12 +160,14 @@ class File implements FileModelInterface
 
     /**
      * @param mixed $uploadedAt
-     * @return File
+     * @return EmbeddedFile
      */
     public function setUploadedAt($uploadedAt)
     {
         $this->uploadedAt = $uploadedAt;
         return $this;
     }
+
+
 
 }
