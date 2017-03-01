@@ -9,6 +9,7 @@
 namespace Youshido\GraphQLExtensionsBundle\GraphQL\Field;
 
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Youshido\GraphQL\Config\Field\FieldConfig;
 use Youshido\GraphQL\Execution\ResolveInfo;
@@ -41,12 +42,13 @@ class ResizableImageField extends ImageField
         if ($value && is_object($value)) {
             $pa = new PropertyAccessor();
             $image = $pa->getValue($value, $this->fieldName);
+            /** @var Container $container */
+            $container = $info->getContainer();
             if (!empty($args['width']) || !empty($args['height'])) {
-                $url = $info->getContainer()->get('graphql_extensions.image_resizer')->getPathResolver()->resolveWebResizablePath(
-                    $args['width'], $image
-                );
+                $url = $container->get('graphql_extensions.image_resizer')
+                    ->getPathResolver()->resolveWebResizablePath($args, $image);
             } else {
-                $url = $info->getContainer()->get('graphql_extensions.path_resolver')->resolveWebPath($image);
+                $url = $container->get('graphql_extensions.path_resolver')->resolveWebPath($image);
             }
 
             return [
