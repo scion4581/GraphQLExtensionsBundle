@@ -7,6 +7,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class BaseRepository extends DocumentRepository
 {
+    const DEFAULT_PAGE_LIMIT = 20;
 
     public function setEntityPropertiesValues($object, $data, array $properties)
     {
@@ -60,5 +61,7 @@ class BaseRepository extends DocumentRepository
     {
         return $this->createQueryForFilters($filters)->getQuery()->execute();
     }
+
+
 
 }
