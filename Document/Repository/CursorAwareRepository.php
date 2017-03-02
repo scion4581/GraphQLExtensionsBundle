@@ -14,7 +14,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 class CursorAwareRepository extends BaseRepository
 {
 
-    public function getCursoredList($args)
+    public function getCursoredList($args, $filters = [])
     {
         $this->assertValidCursorArguments($args);
         $limit     = static::DEFAULT_PAGE_LIMIT;
@@ -35,7 +35,7 @@ class CursorAwareRepository extends BaseRepository
         $sortOrder      = !empty($args['sort']['order']) ? $args['sort']['order'] : 1;
         $finalDirection = $sortOrder * $direction;
 
-        $qb         = $this->createQueryBuilder()
+        $qb         = $this->createQueryForFilters($filters)
             ->sort($args['sort']['field'], $finalDirection)
             ->limit($limit);
         $cursorData = null;
