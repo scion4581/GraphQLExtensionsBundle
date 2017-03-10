@@ -42,6 +42,9 @@ class ResizableImageField extends ImageField
         if ($value && is_object($value)) {
             $pa = new PropertyAccessor();
             $image = $pa->getValue($value, $this->fieldName);
+            if (!$image) {
+                return null;
+            }
             /** @var Container $container */
             $container = $info->getContainer();
             if (!empty($args['width']) || !empty($args['height'])) {
