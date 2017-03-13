@@ -46,7 +46,7 @@ class Locator
         return $this->storeFile($filename, $extension, $this->getFileContent($url));
     }
 
-    private function storeFile($filename, $extension, $data)
+    public function storeFile($filename, $extension, $data)
     {
         $path         = $this->pathGenerator->generatePath($extension);
         $absolutePath = $this->pathResolver->resolveAbsolutePath(new LocatedObject($path));
