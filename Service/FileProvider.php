@@ -51,7 +51,13 @@ class FileProvider
             throw new \InvalidArgumentException(sprintf('Request hasn\'t file with field "%s"', $fieldName));
         }
 
-        $locatedFile = $this->locator->saveFromUploadedFile($request->files->get($fieldName));
+        $uploadedFile = $request->files->get($fieldName);
+        return $this->processUploadedFile($uploadedFile);
+    }
+
+    public function processUploadedFile($uploadedFile)
+    {
+        $locatedFile  = $this->locator->saveFromUploadedFile($uploadedFile);
         /** @var FileModelInterface $object */
         $object = new $this->modelClass();
         $object->setTitle($locatedFile->getFilename());
