@@ -51,6 +51,15 @@ class File implements FileModelInterface
     }
 
     /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+
+    /**
      * @return mixed
      */
     public function getId()

@@ -23,15 +23,15 @@ class ResizableImageField extends ImageField
         parent::build($config);
         $config->addArguments([
             'width'  => [
-                'type'    => new IntType(),
+                'type'         => new IntType(),
                 'defaultValue' => 0
             ],
             'height' => [
-                'type'    => new IntType(),
+                'type'         => new IntType(),
                 'defaultValue' => 0
             ],
             'mode'   => [
-                'type'    => new ResizeModeType(),
+                'type'         => new ResizeModeType(),
                 'defaultValue' => ResizeModeType::OUTBOUND
             ]
         ]);
@@ -39,9 +39,13 @@ class ResizableImageField extends ImageField
 
     public function resolve($value, array $args, ResolveInfo $info)
     {
-        if ($value && is_object($value)) {
-            $pa = new PropertyAccessor();
-            $image = $pa->getValue($value, $this->fieldName);
+        if ($value && (is_object($value) || is_array($value))) {
+            $pa    = new PropertyAccessor();
+            if (is_object($value)) {
+                $image = $pa->getValue($value, $this->fieldName);
+            } else {
+                $image = $pa->getValue($value, '[' . $this->fieldName .']');
+            }
             if (!$image) {
                 return null;
             }
