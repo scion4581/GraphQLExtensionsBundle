@@ -17,27 +17,11 @@ class CursorAwareRepository extends BaseRepository
     public function getCursoredList($args, $filters = [])
     {
         $this->assertValidCursorArguments($args);
-        $limit     = static::DEFAULT_PAGE_LIMIT;
-        $direction = 1;
-
-        if (!empty($args['first'])) {
-            $limit = $args['first'];
-        } elseif (!empty($args['last'])) {
-            $direction = -1;
-            $limit     = $args['last'];
-        }
-        if (empty($args['sort'])) {
-            $args['sort'] = [
-                'field' => 'id',
-                'order' => 1,
-            ];
-        }
-        $sortOrder      = !empty($args['sort']['order']) ? $args['sort']['order'] : 1;
-        $finalDirection = $sortOrder * $direction;
+        $args = $this->prepareCursorArguments($args);
 
         $qb         = $this->createQueryForFilters($filters)
-            ->sort($args['sort']['field'], $finalDirection)
-            ->limit($limit);
+            ->sort($args['sort']['field'], $args['finalDirection'])
+            ->limit($args['limit']);
         $cursorData = null;
         if (!empty($args['after'])) {
             $cursorData = $this->cursorToData($args['after']);
@@ -45,14 +29,21 @@ class CursorAwareRepository extends BaseRepository
             $cursorData = $this->cursorToData($args['before']);
         }
         if ($cursorData) {
-            $sortCommand = $finalDirection === 1 ? '$gte' : '$lte';
+            $sortCommand = $args['finalDirection'] === 1 ? '$gte' : '$lte';
             $qb->addAnd([
                 $args['sort']['field'] => [$sortCommand => $cursorData[1]],
                 'id'                   => ['$ne' => $cursorData[0]]
             ]);
         }
-        $data  = $qb->find()
+        $data = $qb->find()
             ->getQuery()->execute();
+        return $this->getCursoredListFromData($data, $args);
+
+    }
+
+    public function getCursoredListFromData($data, $args)
+    {
+        $args  = $this->prepareCursorArguments($args);
         $edges = [];
         foreach ($data as $item) {
             $edges[] = [
@@ -62,7 +53,7 @@ class CursorAwareRepository extends BaseRepository
         }
 
         return [
-            'edges'    => $sortOrder === $finalDirection ? $edges : array_reverse($edges),
+            'edges'    => $args['sortOrder'] === $args['finalDirection'] ? $edges : array_reverse($edges),
             'pageInfo' => [
                 'startCursor'     => null,
                 'endCursor'       => null,
@@ -70,6 +61,28 @@ class CursorAwareRepository extends BaseRepository
                 'hasNextPage'     => false
             ]
         ];
+    }
+
+    protected function prepareCursorArguments($args)
+    {
+        $args['limit'] = static::DEFAULT_PAGE_LIMIT;
+        $direction     = 1;
+
+        if (!empty($args['first'])) {
+            $args['limit'] = $args['first'];
+        } elseif (!empty($args['last'])) {
+            $direction     = -1;
+            $args['limit'] = $args['last'];
+        }
+        if (empty($args['sort'])) {
+            $args['sort'] = [
+                'field' => 'id',
+                'order' => 1,
+            ];
+        }
+        $args['sortOrder']      = !empty($args['sort']['order']) ? $args['sort']['order'] : 1;
+        $args['finalDirection'] = $args['sortOrder'] * $direction;
+        return $args;
     }
 
     protected function assertValidCursorArguments($args)
@@ -108,10 +121,15 @@ class CursorAwareRepository extends BaseRepository
 
     protected function cursorForObjectWithSort($object, $sort)
     {
-        $ap = new PropertyAccessor();
 
-        $fieldValue = $ap->getValue($object, $sort['field']);
-        $id         = $ap->getValue($object, 'id');
+        if (is_array($object)) {
+            $fieldValue = $object[$sort['field']];
+            $id         = $object['id'];
+        } else {
+            $ap         = new PropertyAccessor();
+            $fieldValue = $ap->getValue($object, $sort['field']);
+            $id         = $ap->getValue($object, 'id');
+        }
 
         return base64_encode($id . chr(0) . $fieldValue);
     }
