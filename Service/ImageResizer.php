@@ -48,7 +48,7 @@ class ImageResizer
         $imagine = ImagineFactory::createImagine($this->driver);
 
         /** @var ImageInterface $image */
-        $image = $imagine->open($this->pathResolver->resolveAbsolutePath($object));
+        $image = $imagine->open($this->pathResolver->resolveWebPath($object));
         $this->storage->preparePath($absoluteTargetPath);
 
         $box = new Box($config['width'], $config['height']);
@@ -67,7 +67,7 @@ class ImageResizer
         $image = $resize->apply($image);
         $image = $crop->apply($image);
 
-        $image->save($absoluteTargetPath);
+        $this->storage->save($absoluteTargetPath, $image->__toString());
     }
 
     /**

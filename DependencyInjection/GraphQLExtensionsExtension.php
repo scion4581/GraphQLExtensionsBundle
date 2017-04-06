@@ -22,6 +22,7 @@ class GraphQLExtensionsExtension extends Extension
         $config        = $this->processConfiguration($configuration, $configs);
 
 //        $container->setParameter('graphql_extensions.files', $config['files']);
+        $this->setContainerParam($container, 's3_bucket', $config['s3_bucket']);
         $this->setContainerParam($container, 'web_root', $config['web_root']);
         $this->setContainerParam($container, 'path_prefix', $config['path_prefix']);
         $this->setContainerParam($container, 'platform', $config['platform']);

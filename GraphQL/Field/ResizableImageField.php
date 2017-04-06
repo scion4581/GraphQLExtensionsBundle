@@ -49,6 +49,7 @@ class ResizableImageField extends ImageField
             if (!$image) {
                 return null;
             }
+            
             /** @var Container $container */
             $container = $info->getContainer();
             if (!empty($args['width']) || !empty($args['height'])) {

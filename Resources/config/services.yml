@@ -1,6 +1,5 @@
 parameters:
   graphql_extensions.classes.path_generator: "Youshido\\GraphQLExtensionsBundle\\Service\\PathGenerator\\DatePathGenerator"
-  graphql_extensions.classes.path_resolver: "Youshido\\GraphQLExtensionsBundle\\Service\\PathResolver\\LocalPathResolver"
   graphql_extensions.classes.file_provider: "Youshido\\GraphQLExtensionsBundle\\Service\\FileProvider"
   graphql_extensions.classes.image_resizer: "Youshido\\GraphQLExtensionsBundle\\Service\\ImageResizer"
   graphql_extensions.classes.locator: "Youshido\\GraphQLExtensionsBundle\\Service\\Locator\\Locator"

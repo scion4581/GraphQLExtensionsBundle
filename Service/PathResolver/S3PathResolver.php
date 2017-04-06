@@ -1,0 +1,89 @@
+<?php
+
+namespace Youshido\GraphQLExtensionsBundle\Service\PathResolver;
+
+
+use Symfony\Component\Routing\RouterInterface;
+use Youshido\GraphQLExtensionsBundle\Model\PathAwareInterface;
+
+class S3PathResolver implements PathResolverInterface
+{
+    /** @var  string */
+    private $scheme;
+
+    /** @var  string */
+    private $host;
+
+    /** @var  string */
+    private $prefix;
+
+    /** @var string */
+    private $webRoot;
+
+    private $bucket;
+
+    public function __construct(RouterInterface $router, $webRoot, $prefix, $host = null, $scheme = null)
+    {
+        $this->prefix  = $prefix;
+        $this->webRoot = $webRoot;
+
+        $this->host   = $host;
+        $this->scheme = $scheme;
+
+        if (!$host) {
+            $this->host = $router->getContext()->getHost();
+        }
+
+        if (!$scheme) {
+            $this->scheme = $router->getContext()->getScheme();
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBucket()
+    {
+        return $this->bucket;
+    }
+
+    /**
+     * @param mixed $bucket
+     */
+    public function setBucket($bucket)
+    {
+        $this->bucket = $bucket;
+    }
+
+
+    public function resolveWebPath(PathAwareInterface $object)
+    {
+        return sprintf('%s://%s/%s', $this->scheme, $this->host, $this->resolveRelativePath($object));
+    }
+
+    public function resolveAbsolutePath(PathAwareInterface $object)
+    {
+        return $this->resolveRelativePath($object);
+    }
+
+    public function resolveRelativePath(PathAwareInterface $object)
+    {
+        return $object->getPath();
+    }
+
+    public function resolveRelativeResizablePath($config, PathAwareInterface $object)
+    {
+        return strtolower(sprintf('/media/cache/%s/%sx%s/%s', $config['mode'], $config['width'], $config['height'], $object->getPath()));
+    }
+    public function resolveAbsoluteResizablePath($config, PathAwareInterface $object)
+    {
+        return ltrim($this->resolveRelativeResizablePath($config, $object), '/');
+    }
+
+    public function resolveWebResizablePath($config, PathAwareInterface $object)
+    {
+        return sprintf('%s://%s%s', $this->scheme, $this->host, $this->resolveRelativeResizablePath($config, $object));
+    }
+
+
+}

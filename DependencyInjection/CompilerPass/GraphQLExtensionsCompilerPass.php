@@ -2,11 +2,15 @@
 
 namespace Youshido\GraphQLExtensionsBundle\DependencyInjection\CompilerPass;
 
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Youshido\GraphQLExtensionsBundle\Service\Locator\Storage\FileSystemStorage;
+use Youshido\GraphQLExtensionsBundle\Service\Locator\Storage\S3Storage;
+use Youshido\GraphQLExtensionsBundle\Service\PathResolver\LocalPathResolver;
+use Youshido\GraphQLExtensionsBundle\Service\PathResolver\S3PathResolver;
 
 /**
  * This file is a part of GraphQLExtensionsBundle project.
@@ -19,13 +23,29 @@ class GraphQLExtensionsCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $storageDefinition  = new Definition();
+        $resolverDefinition = $container->getDefinition('graphql_extensions.path_resolver');
         switch ($container->getParameter('graphql_extensions.config.storage')) {
-            case 'filesystem':
+            case 'local':
                 $storageDefinition->setClass(FileSystemStorage::class);
+                $resolverDefinition->setClass(LocalPathResolver::class);
+                break;
+            case 's3':
+                $storageDefinition->setClass(S3Storage::class);
+                $bucket = $container->getParameter('graphql_extensions.config.s3_bucket');
+                $storageDefinition->setMethodCalls([
+                    ['setClient', [new Reference("aws.s3")]],
+                    ['setBucket', [$bucket]]
+                ]);
+                $resolverDefinition->setClass(S3PathResolver::class);
+                $resolverDefinition->setArguments([
+                    new Reference("router"),
+                    "", "", "s3.amazonaws.com/" . $bucket, "https"
+                ]);
+                break;
         }
         $container->setDefinition('graphql_extensions.storage', $storageDefinition);
-        $models = [];
-        $platform     = $container->getParameter('graphql_extensions.config.platform');
+        $models   = [];
+        $platform = $container->getParameter('graphql_extensions.config.platform');
         switch ($platform) {
             case 'orm':
                 $container->setAlias('graphql_extensions.om', 'doctrine.orm.entity_manager');
