@@ -14,6 +14,7 @@ use Youshido\GraphQLExtensionsBundle\Service\Locator\LocatedObject;
 use Youshido\GraphQLExtensionsBundle\Service\Locator\Storage\StorageInterface;
 use Youshido\GraphQLExtensionsBundle\Service\PathGenerator\PathGeneratorInterface;
 use Youshido\GraphQLExtensionsBundle\Service\PathResolver\PathResolverInterface;
+use Youshido\GraphQLExtensionsBundle\Service\MimeTypes;
 
 class Locator
 {
@@ -57,6 +58,24 @@ class Locator
         return new LocatedObject($path, $filename, $size, $extension);
     }
 
+    public function saveFromBase64($base64Data)
+    {
+        $data = explode(',', $base64Data);
+
+        $mimeType  = substr($data[0], 5, -7);
+        $extension = MimeTypes::guessExtension($mimeType);
+
+        $tempImagePath = sprintf('%s.' . $extension, tempnam(sys_get_temp_dir(), "preview_"));
+        $ifp           = fopen($tempImagePath, "wb");
+        fwrite($ifp, base64_decode($data[1]));
+        fclose($ifp);
+
+        $image = $this->saveFromUrl($tempImagePath);
+
+        unlink($tempImagePath);
+
+        return $image;
+    }
     /**
      * @param string $path
      * @return string

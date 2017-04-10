@@ -58,6 +58,21 @@ class FileProvider
     public function processUploadedFile($uploadedFile)
     {
         $locatedFile  = $this->locator->saveFromUploadedFile($uploadedFile);
+        return $this->generateResponse($locatedFile);
+    }
+
+    public function processBase64Data($data)
+    {
+        $locatedFile = $this->locator->saveFromBase64($data);
+        return $this->generateResponse($locatedFile);
+    }
+
+    /**
+     * @param $locatedFile
+     * @return FileModelInterface
+     */
+    protected function generateResponse($locatedFile)
+    {
         /** @var FileModelInterface $object */
         $object = new $this->modelClass();
         $object->setTitle($locatedFile->getFilename());
@@ -65,6 +80,7 @@ class FileProvider
         $object->setPath($locatedFile->getPath());
         $this->om->persist($object);
         $this->om->flush();
+
         return $object;
     }
 

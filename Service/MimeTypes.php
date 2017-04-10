@@ -1003,4 +1003,10 @@ class MimeTypes
         $extension = strtolower($extension);
         return empty(self::$mimeTypes[$extension]) ? "application/octet-stream" : self::$mimeTypes[$extension];
     }
+
+    public static function guessExtension($mimeType)
+    {
+        $extension = array_search($mimeType, self::$mimeTypes);
+        return $extension ? $extension : '';
+    }
 }
