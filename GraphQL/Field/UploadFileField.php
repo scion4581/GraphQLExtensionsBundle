@@ -40,7 +40,6 @@ class UploadFileField extends AbstractField
         ];
     }
 
-
     public function getType()
     {
         return new FileType();

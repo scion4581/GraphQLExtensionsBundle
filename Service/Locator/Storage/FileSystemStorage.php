@@ -37,4 +37,13 @@ class FileSystemStorage implements StorageInterface
         }
     }
 
+    /**
+     * @param string $absolutePath
+     *
+     * @return string
+     */
+    public function get($absolutePath)
+    {
+        return file_get_contents($absolutePath);
+    }
 }

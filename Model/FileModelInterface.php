@@ -1,12 +1,8 @@
 <?php
-/**
- * This file is a part of GraphQLExtensionsBundle project.
- *
- * @author Alexandr Viniychuk <a@viniychuk.com>
- * created: 2/25/17 1:57 PM
- */
 
 namespace Youshido\GraphQLExtensionsBundle\Model;
+
+use Youshido\ImagesBundle\Document\Interfaces\PathableInterface;
 
 
 /**
@@ -15,7 +11,7 @@ namespace Youshido\GraphQLExtensionsBundle\Model;
  * @MongoDB\Document(collection="files")
  * @MongoDB\HasLifecycleCallbacks()
  */
-interface FileModelInterface extends PathAwareInterface
+interface FileModelInterface extends PathAwareInterface, PathableInterface
 {
 
     /**

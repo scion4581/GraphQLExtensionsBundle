@@ -40,5 +40,10 @@ interface StorageInterface
      */
     public function preparePath($path);
 
-
+    /**
+     * @param string $absolutePath
+     *
+     * @return string
+     */
+    public function get($absolutePath);
 }

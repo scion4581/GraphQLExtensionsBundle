@@ -57,12 +57,20 @@ class S3Storage implements StorageInterface
 
     public function size($absolutePath)
     {
-        return 1;
-//        return $this->client->in($absolutePath);
+        return 1; //todo
     }
 
     public function preparePath($path)
     {
     }
 
+    /**
+     * @param string $absolutePath
+     *
+     * @return string
+     */
+    public function get($absolutePath)
+    {
+        //todo
+    }
 }

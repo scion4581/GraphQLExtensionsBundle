@@ -2,7 +2,6 @@
 
 namespace Youshido\GraphQLExtensionsBundle\Service\PathResolver;
 
-
 use Symfony\Component\Routing\RouterInterface;
 use Youshido\GraphQLExtensionsBundle\Model\PathAwareInterface;
 
@@ -65,6 +64,4 @@ class LocalPathResolver implements PathResolverInterface
     {
         return sprintf('%s://%s%s', $this->scheme, $this->host, $this->resolveRelativeResizablePath($config, $object));
     }
-
-
 }

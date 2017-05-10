@@ -16,7 +16,6 @@ use Youshido\GraphQLExtensionsBundle\Service\Locator\Locator;
 
 class FileProvider
 {
-
     /** @var RequestStack */
     protected $requestStack;
     /** @var ObjectManager */
