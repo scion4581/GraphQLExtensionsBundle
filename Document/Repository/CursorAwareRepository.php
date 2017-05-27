@@ -130,6 +130,9 @@ class CursorAwareRepository extends BaseRepository
             $fieldValue = $ap->getValue($object, $sort['field']);
             $id         = $ap->getValue($object, 'id');
         }
+        if ($fieldValue instanceof \DateTime) {
+            $fieldValue = $fieldValue->getTimestamp();
+        }
 
         return base64_encode($id . chr(0) . $fieldValue);
     }
