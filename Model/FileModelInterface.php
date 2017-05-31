@@ -2,18 +2,14 @@
 
 namespace Youshido\GraphQLExtensionsBundle\Model;
 
-use Youshido\ImagesBundle\Document\Interfaces\PathableInterface;
-
-
 /**
  * Class File
  *
  * @MongoDB\Document(collection="files")
  * @MongoDB\HasLifecycleCallbacks()
  */
-interface FileModelInterface extends PathAwareInterface, PathableInterface
+interface FileModelInterface extends PathAwareInterface
 {
-
     /**
      * @return mixed
      */
