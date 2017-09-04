@@ -51,12 +51,12 @@ class BaseHelper
         foreach ($properties as $index => $property) {
             if (isset($values[$property])) {
                 if (!is_numeric($index)) {
-                    $object = $this->om->getRepository($index)->find($values[$property]);
+                    $objectValue = $this->om->getRepository($index)->find($values[$property]);
                     /** This part suppose to work with fields like 'categoryId' only */
                     if (strpos($property, 'Id') !== false) {
                         $property = substr($property, 0, -2);
                     }
-                    $values[$property] = $object;
+                    $values[$property] = $objectValue;
                 }
 
                 $propertyAccessor->setValue($object, $property, $values[$property]);
