@@ -44,7 +44,7 @@ class File implements FileModelInterface
     private $path;
 
     /**
-     * @ORM\Column(type="datetimetz")
+     * @ORM\Column(type="datetime")
      */
     private $uploadedAt;
 
